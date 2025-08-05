@@ -1,336 +1,479 @@
--- enable foreign keys
-PRAGMA foreign_keys = ON;
-
--- USERS
-CREATE TABLE users (
+-- User Management
+CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    google_id TEXT UNIQUE,
-    email TEXT UNIQUE,
+    google_id TEXT UNIQUE NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    username TEXT,
     full_name TEXT,
+    given_name TEXT,
+    family_name TEXT,
     avatar_url TEXT,
+    locale TEXT,
     class TEXT,
-    school TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    school TEXT
 );
 
--- TOPICS (chuyên đề)
-CREATE TABLE topics (
+-- Topics (Chuyên đề)
+CREATE TABLE IF NOT EXISTS topics (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     description TEXT
 );
 
--- LESSONS (bài học theo chuyên đề)
-CREATE TABLE lessons (
+-- Lessons (Bài học theo chuyên đề)
+CREATE TABLE IF NOT EXISTS lessons (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     topic_id INTEGER NOT NULL,
     title TEXT NOT NULL,
     content TEXT,
     video_url TEXT,
-    lesson_order INTEGER,
-    FOREIGN KEY (topic_id) REFERENCES topics (id) ON DELETE CASCADE
+    FOREIGN KEY (topic_id) REFERENCES topics (id)
 );
 
--- EXAM PAPERS (đề thi)
-CREATE TABLE exam_papers (
+-- Exams (Đề thi)
+CREATE TABLE IF NOT EXISTS exams (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT NOT NULL,
+    name TEXT NOT NULL,
     year INTEGER,
     province TEXT,
     topic_id INTEGER,
-    pdf_url TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (topic_id) REFERENCES topics (id)
 );
 
--- QUESTIONS (câu hỏi trong đề)
-CREATE TABLE questions (
+-- Questions (Câu hỏi)
+CREATE TABLE IF NOT EXISTS questions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    exam_paper_id INTEGER NOT NULL,
-    question_number INTEGER NOT NULL,
-    text TEXT,
-    max_score REAL,
-    model_answer TEXT,
-    FOREIGN KEY (exam_paper_id) REFERENCES exam_papers (id) ON DELETE CASCADE
+    exam_id INTEGER NOT NULL,
+    topic_id INTEGER NOT NULL,
+    content TEXT NOT NULL,
+    type TEXT NOT NULL CHECK (
+        type IN ('single', 'multiple')
+    ),
+    FOREIGN KEY (exam_id) REFERENCES exams (id),
+    FOREIGN KEY (topic_id) REFERENCES topics (id)
 );
 
--- SUBMISSIONS (bài làm của học sinh)
-CREATE TABLE submissions (
+-- Answers (Đáp án)
+CREATE TABLE IF NOT EXISTS answers (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    exam_paper_id INTEGER NOT NULL,
-    submitted_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    status TEXT CHECK (
-        status IN ('pending', 'graded', 'error')
-    ) DEFAULT 'pending',
-    total_score REAL,
-    FOREIGN KEY (user_id) REFERENCES users (id),
-    FOREIGN KEY (exam_paper_id) REFERENCES exam_papers (id)
-);
-
--- UPLOADED IMAGES for each submission
-CREATE TABLE submission_images (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    submission_id INTEGER NOT NULL,
-    image_path TEXT NOT NULL,
-    FOREIGN KEY (submission_id) REFERENCES submissions (id) ON DELETE CASCADE
-);
-
--- PER-QUESTION DETAILS of a submission
-CREATE TABLE submission_details (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    submission_id INTEGER NOT NULL,
     question_id INTEGER NOT NULL,
-    student_answer TEXT,
-    feedback TEXT,
-    score REAL,
-    FOREIGN KEY (submission_id) REFERENCES submissions (id) ON DELETE CASCADE,
+    content TEXT NOT NULL,
+    is_correct BOOLEAN NOT NULL,
     FOREIGN KEY (question_id) REFERENCES questions (id)
 );
 
--- USER-TOPIC PROGRESS (thống kê theo chuyên đề)
-CREATE TABLE user_topic_progress (
+-- Submissions (Nộp bài viết tay, chấm bài tự động)
+CREATE TABLE IF NOT EXISTS submissions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
-    topic_id INTEGER NOT NULL,
-    total_exams INTEGER DEFAULT 0,
-    average_score REAL,
-    proficiency_level TEXT,
+    exam_id INTEGER NOT NULL,
+    image_url TEXT,
+    upload_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    grade REAL,
+    feedback TEXT,
     FOREIGN KEY (user_id) REFERENCES users (id),
-    FOREIGN KEY (topic_id) REFERENCES topics (id)
+    FOREIGN KEY (exam_id) REFERENCES exams (id)
 );
 
--- NOTIFICATIONS (nhắc khi lâu không luyện)
-CREATE TABLE notifications (
+-- Progress Tracking (Tiến độ & Báo cáo học tập)
+CREATE TABLE IF NOT EXISTS progress (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
-    type TEXT,
-    content TEXT,
-    sent_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    read_at DATETIME,
-    FOREIGN KEY (user_id) REFERENCES users (id)
-);
-
--- AI CHAT SESSIONS & MESSAGES
-CREATE TABLE chat_sessions (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    started_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users (id)
-);
-
-CREATE TABLE chat_messages (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    session_id INTEGER NOT NULL,
-    is_user INTEGER NOT NULL CHECK (is_user IN (0, 1)),
-    message TEXT,
-    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (session_id) REFERENCES chat_sessions (id) ON DELETE CASCADE
-);
-
--- SUGGESTIONS (gợi ý ôn tập hoặc bài tiếp theo)
-CREATE TABLE suggestions (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    suggestion_type TEXT,
-    topic_id INTEGER,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    lesson_id INTEGER,
+    exam_id INTEGER,
+    completed BOOLEAN NOT NULL DEFAULT 0,
+    score REAL,
+    completed_at DATETIME,
     FOREIGN KEY (user_id) REFERENCES users (id),
-    FOREIGN KEY (topic_id) REFERENCES topics (id)
+    FOREIGN KEY (lesson_id) REFERENCES lessons (id),
+    FOREIGN KEY (exam_id) REFERENCES exams (id)
 );
 
--- ───────────────────────────────────────────────────────────────────────────
--- Sample data
--- ───────────────────────────────────────────────────────────────────────────
-
+-- Sample Data
 INSERT INTO
     users (
         google_id,
         email,
+        username,
         full_name,
+        given_name,
+        family_name,
         avatar_url,
+        locale,
         class,
         school
     )
 VALUES (
-        'google-uid-123',
+        'google-uid-001',
         'student1@gmail.com',
-        'Nguyễn Văn A',
-        'https://lh3.googleusercontent.com/a/default-avatar',
-        '12A1',
-        'THPT Chuyên Khoa'
+        'student1',
+        'Nguyen Van A',
+        'Van A',
+        'Nguyen',
+        'https://avatar.com/a.jpg',
+        'vi',
+        '10A1',
+        'THPT Le Quy Don'
+    ),
+    (
+        'google-uid-002',
+        'student2@gmail.com',
+        'student2',
+        'Tran Thi B',
+        'Thi B',
+        'Tran',
+        'https://avatar.com/b.jpg',
+        'vi',
+        '11B2',
+        'THPT Tran Phu'
     );
 
--- 2 topics
 INSERT INTO
     topics (name, description)
 VALUES (
-        'Đại số',
-        'Phương trình, bất phương trình, logarit…'
+        'Toán Đại Số',
+        'Chuyên đề về đại số'
     ),
     (
-        'Hình học',
-        'Tứ giác, tam giác, đường thẳng, đường tròn…'
+        'Toán Hình Học',
+        'Chuyên đề về hình học'
     );
 
--- 3 lessons
 INSERT INTO
     lessons (
         topic_id,
         title,
         content,
-        video_url,
-        lesson_order
+        video_url
     )
 VALUES (
         1,
-        'Phương trình bậc hai',
-        'Giới thiệu phương trình bậc hai…',
-        'https://youtu.be/abc123',
-        1
-    ),
-    (
-        1,
-        'Bất phương trình',
-        'Phương pháp giải bất phương trình…',
-        'https://youtu.be/def456',
-        2
+        'Phương trình bậc nhất',
+        'Nội dung về phương trình bậc nhất',
+        'https://video1.com'
     ),
     (
         2,
-        'Đường thẳng trong mặt phẳng',
-        'Định nghĩa, hệ số góc…',
-        'https://youtu.be/ghi789',
-        1
+        'Hình tam giác',
+        'Nội dung về hình tam giác',
+        'https://video2.com'
     );
 
--- 2 exam papers
 INSERT INTO
-    exam_papers (
-        title,
+    exams (
+        name,
         year,
         province,
-        topic_id,
-        pdf_url
+        topic_id
     )
 VALUES (
-        'Đề thi thử 2024',
-        '2024',
+        'Đề thi Toán 2024',
+        2024,
         'Hà Nội',
-        1,
-        'http://example.com/de1.pdf'
+        1
     ),
     (
-        'Đề thi thử 2023',
-        '2023',
+        'Đề thi Hình học 2024',
+        2024,
         'Hồ Chí Minh',
-        2,
-        'http://example.com/de2.pdf'
+        2
     );
 
--- questions for paper #1
+-- 10 questions for topic 1 (Toán Đại Số)
 INSERT INTO
     questions (
-        exam_paper_id,
-        question_number,
-        text,
-        max_score,
-        model_answer
+        exam_id,
+        topic_id,
+        content,
+        type
     )
 VALUES (
         1,
         1,
-        'Giải phương trình x^2 - 5x + 6 = 0',
-        2.0,
-        'x=2 hoặc x=3'
+        'Giá trị của x trong phương trình x + 2 = 5 là?',
+        'single'
     ),
     (
         1,
-        2,
-        'Rút gọn biểu thức A = (x^2-1)/(x-1)',
-        1.0,
-        'A = x+1'
+        1,
+        'Chọn các số là nghiệm của phương trình x^2 - 4 = 0',
+        'multiple'
+    ),
+    (
+        1,
+        1,
+        'Kết quả của 2 + 2 là?',
+        'single'
+    ),
+    (
+        1,
+        1,
+        'Nghiệm của phương trình x^2 = 9 là?',
+        'multiple'
+    ),
+    (
+        1,
+        1,
+        'Tổng của 5 và 7 là?',
+        'single'
+    ),
+    (
+        1,
+        1,
+        'Chọn các số chia hết cho 3: 3, 4, 6, 7',
+        'multiple'
+    ),
+    (
+        1,
+        1,
+        'Kết quả của 10 - 4 là?',
+        'single'
+    ),
+    (
+        1,
+        1,
+        'Chọn các số nguyên tố: 2, 3, 4, 5',
+        'multiple'
+    ),
+    (
+        1,
+        1,
+        'Tích của 3 và 5 là?',
+        'single'
+    ),
+    (
+        1,
+        1,
+        'Chọn các số là bội của 2: 2, 3, 4, 5',
+        'multiple'
     );
 
--- one graded submission
+-- 10 questions for topic 2 (Toán Hình Học)
+INSERT INTO
+    questions (
+        exam_id,
+        topic_id,
+        content,
+        type
+    )
+VALUES (
+        2,
+        2,
+        'Tổng các góc trong một tam giác là bao nhiêu độ?',
+        'single'
+    ),
+    (
+        2,
+        2,
+        'Chọn các hình có ba cạnh: tam giác, tứ giác, ngũ giác, lục giác',
+        'multiple'
+    ),
+    (
+        2,
+        2,
+        'Số cạnh của hình vuông là?',
+        'single'
+    ),
+    (
+        2,
+        2,
+        'Chọn các hình có bốn cạnh: hình vuông, hình chữ nhật, tam giác, ngũ giác',
+        'multiple'
+    ),
+    (
+        2,
+        2,
+        'Số góc vuông trong hình chữ nhật là?',
+        'single'
+    ),
+    (
+        2,
+        2,
+        'Chọn các hình có tất cả các cạnh bằng nhau: hình vuông, hình chữ nhật, tam giác đều, hình thoi',
+        'multiple'
+    ),
+    (
+        2,
+        2,
+        'Số cạnh của hình lục giác là?',
+        'single'
+    ),
+    (
+        2,
+        2,
+        'Chọn các hình có góc nhọn: tam giác, hình vuông, hình chữ nhật, ngũ giác',
+        'multiple'
+    ),
+    (
+        2,
+        2,
+        'Số cạnh của hình ngũ giác là?',
+        'single'
+    ),
+    (
+        2,
+        2,
+        'Chọn các hình có ít nhất một góc vuông: hình vuông, tam giác vuông, hình tròn, hình thoi',
+        'multiple'
+    );
+
+-- Answers for topic 1 questions (IDs 1-10)
+INSERT INTO
+    answers (
+        question_id,
+        content,
+        is_correct
+    )
+VALUES (1, '3', 1),
+    (1, '2', 0),
+    (1, '5', 0),
+    (1, '0', 0),
+    (2, '-2', 1),
+    (2, '2', 1),
+    (2, '0', 0),
+    (2, '3', 0),
+    (3, '4', 1),
+    (3, '2', 0),
+    (3, '3', 0),
+    (3, '5', 0),
+    (4, '3', 1),
+    (4, '-3', 1),
+    (4, '0', 0),
+    (4, '6', 0),
+    (5, '12', 1),
+    (5, '10', 0),
+    (5, '7', 0),
+    (5, '5', 0),
+    (6, '3', 1),
+    (6, '6', 1),
+    (6, '4', 0),
+    (6, '7', 0),
+    (7, '6', 1),
+    (7, '4', 0),
+    (7, '10', 0),
+    (7, '5', 0),
+    (8, '2', 1),
+    (8, '3', 1),
+    (8, '4', 0),
+    (8, '5', 0),
+    (9, '15', 1),
+    (9, '8', 0),
+    (9, '10', 0),
+    (9, '5', 0),
+    (10, '2', 1),
+    (10, '4', 1),
+    (10, '3', 0),
+    (10, '5', 0);
+
+-- Answers for topic 2 questions (IDs 11-20)
+INSERT INTO
+    answers (
+        question_id,
+        content,
+        is_correct
+    )
+VALUES (11, '180', 1),
+    (11, '90', 0),
+    (11, '360', 0),
+    (11, '120', 0),
+    (12, 'tam giác', 1),
+    (12, 'tứ giác', 0),
+    (12, 'ngũ giác', 0),
+    (12, 'lục giác', 0),
+    (13, '4', 1),
+    (13, '3', 0),
+    (13, '5', 0),
+    (13, '6', 0),
+    (14, 'hình vuông', 1),
+    (14, 'hình chữ nhật', 1),
+    (14, 'tam giác', 0),
+    (14, 'ngũ giác', 0),
+    (15, '4', 1),
+    (15, '2', 0),
+    (15, '3', 0),
+    (15, '1', 0),
+    (16, 'hình vuông', 1),
+    (16, 'tam giác đều', 1),
+    (16, 'hình chữ nhật', 0),
+    (16, 'hình thoi', 0),
+    (17, '6', 1),
+    (17, '5', 0),
+    (17, '4', 0),
+    (17, '3', 0),
+    (18, 'tam giác', 1),
+    (18, 'ngũ giác', 1),
+    (18, 'hình vuông', 0),
+    (18, 'hình chữ nhật', 0),
+    (19, '5', 1),
+    (19, '4', 0),
+    (19, '3', 0),
+    (19, '6', 0),
+    (20, 'hình vuông', 1),
+    (20, 'tam giác vuông', 1),
+    (20, 'hình tròn', 0),
+    (20, 'hình thoi', 0);
+
 INSERT INTO
     submissions (
         user_id,
-        exam_paper_id,
-        status,
-        total_score
-    )
-VALUES (1, 1, 'graded', 1.5);
-
--- link an image
-INSERT INTO
-    submission_images (submission_id, image_path)
-VALUES (
-        1,
-        '/uploads/student1/sub1_q1.jpg'
-    );
-
--- details per question
-INSERT INTO
-    submission_details (
-        submission_id,
-        question_id,
-        student_answer,
-        feedback,
-        score
+        exam_id,
+        image_url,
+        grade,
+        feedback
     )
 VALUES (
         1,
         1,
-        'x=2 và x=4',
-        'Sai ở nghiệm x=4, đúng là x=3',
-        1.0
+        'https://img.com/bailam1.jpg',
+        9.0,
+        'Làm tốt!'
     ),
-    (1, 2, 'x+1', 'Đúng', '0.5');
-
--- update progress for topic 1
-INSERT INTO
-    user_topic_progress (
-        user_id,
-        topic_id,
-        total_exams,
-        average_score,
-        proficiency_level
-    )
-VALUES (1, 1, 1, 1.5, 'Khá');
-
--- a notification reminder
-INSERT INTO
-    notifications (user_id, type, content)
-VALUES (
-        1,
-        'reminder',
-        'Bạn lâu không luyện đề, hãy tiếp tục ôn tập!'
+    (
+        2,
+        2,
+        'https://img.com/bailam2.jpg',
+        8.5,
+        'Cần chú ý trình bày.'
     );
 
--- start an AI chat session
-INSERT INTO chat_sessions (user_id) VALUES (1);
-
--- two chat messages
 INSERT INTO
-    chat_messages (session_id, is_user, message)
+    progress (
+        user_id,
+        lesson_id,
+        exam_id,
+        completed,
+        score,
+        completed_at
+    )
 VALUES (
         1,
         1,
-        'Giải thích bước 1 câu 1'
+        NULL,
+        1,
+        NULL,
+        '2025-08-01 10:00:00'
     ),
     (
         1,
-        0,
-        'Bước 1: Áp dụng công thức nghiệm của phương trình bậc hai…'
+        NULL,
+        1,
+        1,
+        9.0,
+        '2025-08-02 15:00:00'
+    ),
+    (
+        2,
+        2,
+        NULL,
+        1,
+        NULL,
+        '2025-08-01 11:00:00'
+    ),
+    (
+        2,
+        NULL,
+        2,
+        1,
+        8.5,
+        '2025-08-03 16:00:00'
     );
-
--- a review suggestion
-INSERT INTO
-    suggestions (
-        user_id,
-        suggestion_type,
-        topic_id
-    )
-VALUES (1, 'review_topic', 1);
