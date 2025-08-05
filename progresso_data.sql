@@ -1,3 +1,19 @@
+-- Drop tables if they exist (for clean setup)
+DROP TABLE IF EXISTS progress;
+
+DROP TABLE IF EXISTS submissions;
+
+DROP TABLE IF EXISTS answers;
+
+DROP TABLE IF EXISTS questions;
+
+DROP TABLE IF EXISTS exams;
+
+DROP TABLE IF EXISTS lessons;
+
+DROP TABLE IF EXISTS topics;
+
+DROP TABLE IF EXISTS users;
 -- User Management
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
