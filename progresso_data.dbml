@@ -1,0 +1,70 @@
+Table users {
+  id integer [pk, increment]
+  google_id text [unique, not null]
+  email text [unique, not null]
+  username text
+  full_name text
+  given_name text
+  family_name text
+  avatar_url text
+  locale text
+  class text
+  school text
+}
+
+Table topics {
+  id integer [pk, increment]
+  name text [not null]
+  description text
+}
+
+Table lessons {
+  id integer [pk, increment]
+  topic_id integer [not null, ref: > topics.id]
+  title text [not null]
+  content text
+  video_url text
+}
+
+Table exams {
+  id integer [pk, increment]
+  name text [not null]
+  year integer
+  province text
+  topic_id integer [ref: > topics.id]
+}
+
+Table questions {
+  id integer [pk, increment]
+  exam_id integer [not null, ref: > exams.id]
+  topic_id integer [not null, ref: > topics.id]
+  content text [not null]
+  type text [not null]
+}
+
+Table answers {
+  id integer [pk, increment]
+  question_id integer [not null, ref: > questions.id]
+  content text [not null]
+  is_correct boolean [not null]
+}
+
+Table submissions {
+  id integer [pk, increment]
+  user_id integer [not null, ref: > users.id]
+  exam_id integer [not null, ref: > exams.id]
+  image_url text
+  upload_time datetime
+  grade real
+  feedback text
+}
+
+Table progress {
+  id integer [pk, increment]
+  user_id integer [not null, ref: > users.id]
+  lesson_id integer [ref: > lessons.id]
+  exam_id integer [ref: > exams.id]
+  completed boolean [not null]
+  score real
+  completed_at datetime
+}
