@@ -17,14 +17,9 @@ DROP TABLE IF EXISTS users;
 -- User Management
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    google_id TEXT UNIQUE NOT NULL,
     email TEXT UNIQUE NOT NULL,
-    username TEXT,
     full_name TEXT,
-    given_name TEXT,
-    family_name TEXT,
     avatar_url TEXT,
-    locale TEXT,
     class TEXT,
     school TEXT
 );
@@ -108,38 +103,23 @@ CREATE TABLE IF NOT EXISTS progress (
 -- Sample Data
 INSERT INTO
     users (
-        google_id,
         email,
-        username,
         full_name,
-        given_name,
-        family_name,
         avatar_url,
-        locale,
         class,
         school
     )
 VALUES (
-        'google-uid-001',
         'student1@gmail.com',
-        'student1',
         'Nguyen Van A',
-        'Van A',
-        'Nguyen',
         'https://avatar.com/a.jpg',
-        'vi',
         '10A1',
         'THPT Le Quy Don'
     ),
     (
-        'google-uid-002',
         'student2@gmail.com',
-        'student2',
         'Tran Thi B',
-        'Thi B',
-        'Tran',
         'https://avatar.com/b.jpg',
-        'vi',
         '11B2',
         'THPT Tran Phu'
     );

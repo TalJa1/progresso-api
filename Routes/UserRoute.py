@@ -10,14 +10,9 @@ from sqlalchemy import Column, Integer, String, Text
 class UserORM(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
-    google_id = Column(String, unique=True, nullable=False)
     email = Column(String, unique=True, nullable=False)
-    username = Column(String)
     full_name = Column(String)
-    given_name = Column(String)
-    family_name = Column(String)
     avatar_url = Column(String)
-    locale = Column(String)
     class_ = Column("class", String)
     school = Column(String)
 
@@ -26,14 +21,9 @@ router = APIRouter()
 
 
 class User(BaseModel):
-    google_id: str
     email: str
-    username: str | None = None
     full_name: str | None = None
-    given_name: str | None = None
-    family_name: str | None = None
     avatar_url: str | None = None
-    locale: str | None = None
     class_: str | None = None
     school: str | None = None
 
