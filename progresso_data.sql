@@ -14,6 +14,10 @@ DROP TABLE IF EXISTS lessons;
 DROP TABLE IF EXISTS topics;
 
 DROP TABLE IF EXISTS users;
+
+DROP TABLE IF EXISTS schedule;
+
+DROP TABLE IF EXISTS lessons_completed;
 -- User Management
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -88,7 +92,6 @@ CREATE TABLE IF NOT EXISTS submissions (
 
 -- Progress Tracking (Tiến độ & Báo cáo học tập)
 CREATE TABLE IF NOT EXISTS progress (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
     lesson_id INTEGER,
     exam_id INTEGER,
@@ -98,6 +101,28 @@ CREATE TABLE IF NOT EXISTS progress (
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (lesson_id) REFERENCES lessons (id),
     FOREIGN KEY (exam_id) REFERENCES exams (id)
+);
+
+-- Schedule (Lịch trình cá nhân)
+CREATE TABLE IF NOT EXISTS schedule (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    title TEXT NOT NULL,
+    description TEXT,
+    type TEXT,
+    event_date DATE NOT NULL,
+    start_time TIME,
+    FOREIGN KEY (user_id) REFERENCES users (id)
+);
+
+-- Lessons Completed (Bài học đã hoàn thành)
+CREATE TABLE IF NOT EXISTS lessons_completed (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    lesson_id INTEGER NOT NULL,
+    completed_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users (id),
+    FOREIGN KEY (lesson_id) REFERENCES lessons (id)
 );
 
 -- Sample Data

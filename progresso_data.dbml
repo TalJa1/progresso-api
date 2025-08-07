@@ -68,3 +68,20 @@ Table progress {
   score real
   completed_at datetime
 }
+
+Table schedule {
+  id integer [pk, increment]
+  user_id integer [not null, ref: > users.id]
+  title text [not null]
+  description text
+  type text
+  event_date date [not null]
+  start_time time
+}
+
+Table lessons_completed {
+  id integer [pk, increment]
+  user_id integer [not null, ref: > users.id]
+  lesson_id integer [not null, ref: > lessons.id]
+  completed_at datetime [default: `CURRENT_TIMESTAMP`]
+}
