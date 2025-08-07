@@ -169,15 +169,15 @@ INSERT INTO
     )
 VALUES (
         1,
-        'Phương trình bậc nhất',
-        'Nội dung về phương trình bậc nhất',
-        'https://video1.com'
+        'System of Linear Equations',
+        '# System of Linear Equations\n\nA **system of linear equations** consists of two or more linear equations with the same set of variables. The goal is to find values for the variables that satisfy all equations at once.\n\nA linear equation has the form `ax + by + c = 0`, where `a`, `b`, and `c` are constants. For example:\n\n```\n2x + 3y = 6\nx - y = 2\n```\n\n**Methods to solve systems:**\n- **Graphical:** Plot each equation as a line; the intersection point(s) are solutions.\n- **Substitution:** Solve one equation for a variable, substitute into the other.\n- **Elimination:** Add/subtract equations to eliminate a variable.\n- **Matrix:** Use matrices (e.g., Gaussian elimination) for larger systems.\n\n**Types of solutions:**\n- **Unique solution:** Lines intersect at one point.\n- **Infinite solutions:** Lines overlap.\n- **No solution:** Lines are parallel.\n\nSystems of linear equations are used in science, engineering, economics, and more.\n',
+        'https://res.cloudinary.com/dyhnzac8w/video/upload/v1754558644/System_Of_Linear_Equations_efgzsw.mp4'
     ),
     (
         2,
-        'Hình tam giác',
-        'Nội dung về hình tam giác',
-        'https://video2.com'
+        'Inscribed Angle Theorem',
+        '# Inscribed Angle Theorem\n\nThe **Inscribed Angle Theorem** states that an angle inscribed in a circle is half the measure of the central angle that subtends the same arc.\n\nIf `A`, `B`, and `C` are points on a circle, and angle `ABC` is inscribed, then:\n\n```\nAngle ABC = 1/2 × Central Angle (AOC)\n```\n\n**Key facts:**\n- All inscribed angles subtending the same arc are equal.\n- The measure of an inscribed angle is always half the measure of the corresponding central angle.\n- If the inscribed angle subtends a diameter, it is a right angle (90°).\n\n**Applications:**\n- Proving properties of cyclic quadrilaterals.\n- Solving geometric problems involving circles.\n\nThis theorem is fundamental in circle geometry and is widely used in mathematics competitions and proofs.\n',
+        'https://res.cloudinary.com/dyhnzac8w/video/upload/v1754558637/Inscribed_Angle_Theorem_fzpckg.mp4'
     );
 
 INSERT INTO
