@@ -8,6 +8,7 @@ from database import Base, engine
 from Routes import (
     Reset_DBRoute,
     UserRoute,
+    LessionRoute,
 )
 import logging
 from contextlib import asynccontextmanager
@@ -58,3 +59,4 @@ class FilterParams(BaseModel):
 
 app.include_router(Reset_DBRoute.router, prefix="/api/v1", tags=["reset-db"])
 app.include_router(UserRoute.router, prefix="/api/v1", tags=["users"])
+app.include_router(LessionRoute.router, prefix="/api/v1", tags=["lessons"])
