@@ -35,6 +35,15 @@ async def get_users(db: AsyncSession = Depends(get_db)):
     return [user.__dict__ for user in users]
 
 
+@router.get("/users/by-email/{email}")
+async def get_user_by_email(email: str, db: AsyncSession = Depends(get_db)):
+    result = await db.execute(select(UserORM).where(UserORM.email == email))
+    user = result.scalars().first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user.__dict__
+
+
 @router.get("/users/{user_id}")
 async def get_user(user_id: int, db: AsyncSession = Depends(get_db)):
     user = await db.get(UserORM, user_id)
