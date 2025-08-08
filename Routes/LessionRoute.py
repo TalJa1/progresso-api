@@ -30,7 +30,8 @@ class Lesson(BaseModel):
 
 @router.get("/lessons")
 async def get_lessons(db: AsyncSession = Depends(get_db)):
-    result = await db.execute(select(LessonORM))
+    stmt = select(LessonORM).order_by(LessonORM.topic_id)
+    result = await db.execute(stmt)
     lessons = result.scalars().all()
     return [lesson.__dict__ for lesson in lessons]
 
