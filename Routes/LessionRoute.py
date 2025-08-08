@@ -14,6 +14,7 @@ class LessonORM(Base):
     title = Column(String, nullable=False)
     content = Column(Text)
     video_url = Column(String)
+    short_describe = Column(String)
 
 
 router = APIRouter()
@@ -24,6 +25,7 @@ class Lesson(BaseModel):
     title: str
     content: str | None = None
     video_url: str | None = None
+    short_describe: str | None = None
 
 
 @router.get("/lessons")
