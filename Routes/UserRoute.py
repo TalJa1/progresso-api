@@ -15,6 +15,7 @@ class UserORM(Base):
     avatar_url = Column(String)
     class_ = Column("class", String)
     school = Column(String)
+    self_description = Column(String, default="")
 
 
 router = APIRouter()
@@ -26,6 +27,7 @@ class User(BaseModel):
     avatar_url: str | None = None
     class_: str | None = None
     school: str | None = None
+    self_description: str = ""
 
 
 @router.get("/users")

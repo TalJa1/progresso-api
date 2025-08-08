@@ -25,7 +25,8 @@ CREATE TABLE IF NOT EXISTS users (
     full_name TEXT,
     avatar_url TEXT,
     class TEXT,
-    school TEXT
+    school TEXT,
+    self_description TEXT DEFAULT ""
 );
 
 -- Topics (Chuyên đề)
@@ -132,21 +133,24 @@ INSERT INTO
         full_name,
         avatar_url,
         class,
-        school
+        school,
+        self_description
     )
 VALUES (
         'student1@gmail.com',
         'Nguyen Van A',
         'https://avatar.com/a.jpg',
         '10A1',
-        'THPT Le Quy Don'
+        'THPT Le Quy Don',
+        ''
     ),
     (
         'student2@gmail.com',
         'Tran Thi B',
         'https://avatar.com/b.jpg',
         '11B2',
-        'THPT Tran Phu'
+        'THPT Tran Phu',
+        ''
     );
 
 INSERT INTO
