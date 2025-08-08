@@ -24,6 +24,7 @@ Table lessons {
   title text [not null]
   content text
   video_url text
+  short_describe text
 }
 
 Table exams {
