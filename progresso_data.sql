@@ -156,12 +156,12 @@ VALUES (
 INSERT INTO
     topics (name, description)
 VALUES (
-        'Toán Đại Số',
-        'Chuyên đề về đại số'
+        'Algebra',
+        'Explore the fundamental concepts of algebra, including equations, inequalities, and systems of equations.'
     ),
     (
-        'Toán Hình Học',
-        'Chuyên đề về hình học'
+        'Geometry',
+        'Study the properties and relationships of shapes, angles, and figures, with a focus on circles and polygons.'
     );
 
 INSERT INTO
