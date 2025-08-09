@@ -190,28 +190,28 @@ VALUES (
         1,
         'Quadratic Equations',
         '# Quadratic Equations\n\nA quadratic equation is an equation of the form `ax^2 + bx + c = 0`. Solutions can be found using factoring, completing the square, or the quadratic formula.\n\n**Quadratic Formula:**\n\n```\nx = [-b ± sqrt(b^2 - 4ac)] / (2a)\n```\n\nQuadratic equations are fundamental in algebra and appear in many real-world problems.\n',
-        'https://fakeurl.com/video/quadratic_equations.mp4',
+        '',
         'Understand how to solve quadratic equations and apply the quadratic formula.'
     ),
     (
         1,
         'Polynomials and Factoring',
         '# Polynomials and Factoring\n\nPolynomials are expressions consisting of variables and coefficients. Factoring is the process of writing a polynomial as a product of its factors.\n\n**Example:**\n\n```\nx^2 - 5x + 6 = (x - 2)(x - 3)\n```\n\nFactoring helps solve equations and simplify expressions in algebra.\n',
-        'https://fakeurl.com/video/polynomials_factoring.mp4',
+        '',
         'Learn about polynomials and how to factor them.'
     ),
     (
         2,
         'Properties of Circles',
         '# Properties of Circles\n\nA circle is a set of points equidistant from a center. Key properties include radius, diameter, circumference, and area.\n\n**Formulas:**\n- Circumference: `C = 2πr`\n- Area: `A = πr^2`\n\nUnderstanding these properties is essential for solving geometric problems.\n',
-        'https://fakeurl.com/video/properties_of_circles.mp4',
+        '',
         'Explore the basic properties and formulas of circles.'
     ),
     (
         2,
         'Triangles and Their Types',
         '# Triangles and Their Types\n\nTriangles are polygons with three sides. Types include equilateral, isosceles, and scalene.\n\n**Key facts:**\n- The sum of interior angles is always 180°.\n- Right triangles have one 90° angle.\n\nTriangles are foundational in geometry and trigonometry.\n',
-        'https://fakeurl.com/video/triangles_types.mp4',
+        '',
         'Learn about different types of triangles and their properties.'
     );
 
