@@ -6,6 +6,7 @@ from pydantic import BaseModel, Field
 from database import Base, engine
 
 from Routes import (
+    GeminiAIRoute,
     LessonCompletedRoute,
     Reset_DBRoute,
     TopicRoute,
@@ -60,6 +61,7 @@ class FilterParams(BaseModel):
 
 
 app.include_router(Reset_DBRoute.router, prefix="/api/v1", tags=["reset-db"])
+app.include_router(GeminiAIRoute.router, prefix="/api/v1", tags=["gemini-chat"])
 app.include_router(UserRoute.router, prefix="/api/v1", tags=["users"])
 app.include_router(LessionRoute.router, prefix="/api/v1", tags=["lessons"])
 app.include_router(TopicRoute.router, prefix="/api/v1", tags=["topics"])
