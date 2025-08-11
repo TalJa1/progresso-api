@@ -21,7 +21,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = FastAPI(
-    title="FastAPI with SQLite For Music4You app",
+    title="FastAPI with SQLite For Progresso app",
     description="This is a very fancy project, with auto docs for the API",
     version="0.1.0",
 )
