@@ -5,6 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from database import get_db, Base
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import Column, Integer, String, Text, Date, Time, ForeignKey
+from datetime import datetime, date, time
 
 
 class ScheduleORM(Base):
@@ -54,7 +55,28 @@ async def get_schedule(schedule_id: int, db: AsyncSession = Depends(get_db)):
 
 @router.post("/schedule", status_code=201)
 async def create_schedule(data: Schedule, db: AsyncSession = Depends(get_db)):
-    item_obj = ScheduleORM(**data.dict())
+    try:
+        event_date_obj = datetime.strptime(data.event_date, "%Y-%m-%d").date()
+    except Exception:
+        raise HTTPException(
+            status_code=400, detail="Invalid event_date format. Use YYYY-MM-DD."
+        )
+    start_time_obj = None
+    if data.start_time:
+        try:
+            start_time_obj = datetime.strptime(data.start_time, "%H:%M").time()
+        except Exception:
+            raise HTTPException(
+                status_code=400, detail="Invalid start_time format. Use HH:MM."
+            )
+    item_obj = ScheduleORM(
+        user_id=data.user_id,
+        title=data.title,
+        description=data.description,
+        type=data.type,
+        event_date=event_date_obj,
+        start_time=start_time_obj,
+    )
     db.add(item_obj)
     try:
         await db.commit()
@@ -72,8 +94,27 @@ async def update_schedule(
     item_obj = await db.get(ScheduleORM, schedule_id)
     if not item_obj:
         raise HTTPException(status_code=404, detail="Schedule not found")
-    for key, value in data.dict().items():
-        setattr(item_obj, key, value)
+    # Convert event_date and start_time to correct types
+    try:
+        event_date_obj = datetime.strptime(data.event_date, "%Y-%m-%d").date()
+    except Exception:
+        raise HTTPException(
+            status_code=400, detail="Invalid event_date format. Use YYYY-MM-DD."
+        )
+    start_time_obj = None
+    if data.start_time:
+        try:
+            start_time_obj = datetime.strptime(data.start_time, "%H:%M").time()
+        except Exception:
+            raise HTTPException(
+                status_code=400, detail="Invalid start_time format. Use HH:MM."
+            )
+    item_obj.user_id = data.user_id
+    item_obj.title = data.title
+    item_obj.description = data.description
+    item_obj.type = data.type
+    item_obj.event_date = event_date_obj
+    item_obj.start_time = start_time_obj
     try:
         await db.commit()
         await db.refresh(item_obj)
