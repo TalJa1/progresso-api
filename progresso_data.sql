@@ -123,6 +123,7 @@ CREATE TABLE IF NOT EXISTS quizlet (
 
 -- delete lessons_completed all data
 -- DELETE FROM lessons_completed;
+-- DELETE FROM quizlet;
 
 INSERT INTO
     quizlet (lesson_id, question, answer)
