@@ -126,10 +126,186 @@ CREATE TABLE IF NOT EXISTS lessons_completed (
     FOREIGN KEY (lesson_id) REFERENCES lessons (id)
 );
 
+-- Quizlet Table (Flashcards for each lesson)
+CREATE TABLE IF NOT EXISTS quizlet (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    lesson_id INTEGER NOT NULL,
+    question TEXT NOT NULL,
+    answer TEXT NOT NULL,
+    FOREIGN KEY (lesson_id) REFERENCES lessons (id)
+);
+
 -- delete lessons_completed all data
 -- DELETE FROM lessons_completed;
 
--- Sample Data
+INSERT INTO
+    quizlet (lesson_id, question, answer)
+VALUES (
+        1,
+        'What is a system of linear equations?',
+        'A set of two or more linear equations with the same variables.'
+    ),
+    (
+        1,
+        'What is the graphical method for solving systems?',
+        'Plot each equation and find the intersection point.'
+    ),
+    (
+        1,
+        'What does it mean if two lines are parallel in a system?',
+        'There is no solution.'
+    ),
+    (
+        1,
+        'What is the elimination method?',
+        'Add or subtract equations to eliminate a variable.'
+    ),
+    (
+        1,
+        'What is the solution to the system: x + y = 4, x - y = 2?',
+        'x = 3, y = 1'
+    );
+
+INSERT INTO
+    quizlet (lesson_id, question, answer)
+VALUES (
+        2,
+        'What does the Inscribed Angle Theorem state?',
+        'An inscribed angle is half the measure of the central angle subtending the same arc.'
+    ),
+    (
+        2,
+        'What is the inscribed angle if the central angle is 80°?',
+        '40°'
+    ),
+    (
+        2,
+        'What is the inscribed angle if it subtends a diameter?',
+        '90°'
+    ),
+    (
+        2,
+        'Are all inscribed angles subtending the same arc equal?',
+        'Yes'
+    ),
+    (
+        2,
+        'What is a key application of the inscribed angle theorem?',
+        'Proving properties of cyclic quadrilaterals.'
+    );
+
+INSERT INTO
+    quizlet (lesson_id, question, answer)
+VALUES (
+        3,
+        'What is the general form of a quadratic equation?',
+        'ax^2 + bx + c = 0'
+    ),
+    (
+        3,
+        'What is the quadratic formula?',
+        'x = [-b ± sqrt(b^2 - 4ac)] / (2a)'
+    ),
+    (
+        3,
+        'What does the discriminant determine?',
+        'The number and type of solutions.'
+    ),
+    (
+        3,
+        'What is factoring?',
+        'Writing a quadratic as a product of two binomials.'
+    ),
+    (
+        3,
+        'What is the solution to x^2 - 4 = 0?',
+        'x = 2 or x = -2'
+    );
+
+INSERT INTO
+    quizlet (lesson_id, question, answer)
+VALUES (
+        4,
+        'What is a polynomial?',
+        'An expression of variables and coefficients.'
+    ),
+    (
+        4,
+        'What is factoring?',
+        'Writing a polynomial as a product of its factors.'
+    ),
+    (
+        4,
+        'What is the factored form of x^2 - 5x + 6?',
+        '(x - 2)(x - 3)'
+    ),
+    (
+        4,
+        'What is the degree of a polynomial?',
+        'The highest power of the variable.'
+    ),
+    (
+        4,
+        'Why is factoring useful?',
+        'It helps solve equations and simplify expressions.'
+    );
+
+INSERT INTO
+    quizlet (lesson_id, question, answer)
+VALUES (
+        5,
+        'What is the formula for the circumference of a circle?',
+        'C = 2πr'
+    ),
+    (
+        5,
+        'What is the formula for the area of a circle?',
+        'A = πr^2'
+    ),
+    (
+        5,
+        'What is a radius?',
+        'A line from the center to any point on the circle.'
+    ),
+    (
+        5,
+        'What is a diameter?',
+        'A line passing through the center, touching two points on the circle.'
+    ),
+    (
+        5,
+        'What is a chord?',
+        'A line segment joining two points on a circle.'
+    );
+
+INSERT INTO
+    quizlet (lesson_id, question, answer)
+VALUES (
+        6,
+        'What is a triangle?',
+        'A polygon with three sides.'
+    ),
+    (
+        6,
+        'What is the sum of the interior angles of a triangle?',
+        '180°'
+    ),
+    (
+        6,
+        'What is an equilateral triangle?',
+        'A triangle with all sides equal.'
+    ),
+    (
+        6,
+        'What is a right triangle?',
+        'A triangle with one 90° angle.'
+    ),
+    (
+        6,
+        'What is a scalene triangle?',
+        'A triangle with all sides of different lengths.'
+    );
+
 INSERT INTO
     users (
         email,
