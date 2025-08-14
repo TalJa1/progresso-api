@@ -1,22 +1,21 @@
+
 Table users {
   id integer [pk, increment]
-  google_id text [unique, not null]
   email text [unique, not null]
-  username text
   full_name text
-  given_name text
-  family_name text
   avatar_url text
-  locale text
   class text
   school text
+  self_description text [default: ""]
 }
+
 
 Table topics {
   id integer [pk, increment]
   name text [not null]
   description text
 }
+
 
 Table lessons {
   id integer [pk, increment]
@@ -27,6 +26,7 @@ Table lessons {
   short_describe text
 }
 
+
 Table exams {
   id integer [pk, increment]
   name text [not null]
@@ -34,6 +34,7 @@ Table exams {
   province text
   topic_id integer [ref: > topics.id]
 }
+
 
 Table questions {
   id integer [pk, increment]
@@ -43,6 +44,7 @@ Table questions {
   type text [not null]
 }
 
+
 Table answers {
   id integer [pk, increment]
   question_id integer [not null, ref: > questions.id]
@@ -50,15 +52,17 @@ Table answers {
   is_correct boolean [not null]
 }
 
+
 Table submissions {
   id integer [pk, increment]
   user_id integer [not null, ref: > users.id]
   exam_id integer [not null, ref: > exams.id]
   image_url text
-  upload_time datetime
+  upload_time datetime [default: `CURRENT_TIMESTAMP`]
   grade real
   feedback text
 }
+
 
 
 Table schedule {
@@ -71,9 +75,17 @@ Table schedule {
   start_time time
 }
 
+
 Table lessons_completed {
   id integer [pk, increment]
   user_id integer [not null, ref: > users.id]
   lesson_id integer [not null, ref: > lessons.id]
   completed_at datetime [default: `CURRENT_TIMESTAMP`]
+}
+
+Table quizlet {
+  id integer [pk, increment]
+  lesson_id integer [not null, ref: > lessons.id]
+  question text [not null]
+  answer text [not null]
 }
