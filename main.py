@@ -9,6 +9,7 @@ from Routes import (
     ExamRoute,
     GeminiAIRoute,
     LessonCompletedRoute,
+    QuestionandAnswerRoute,
     QuizletRoute,
     Reset_DBRoute,
     ScheduleRoute,
@@ -67,6 +68,9 @@ app.include_router(Reset_DBRoute.router, prefix="/api/v1", tags=["reset-db"])
 app.include_router(GeminiAIRoute.router, prefix="/api/v1", tags=["gemini-chat"])
 app.include_router(UserRoute.router, prefix="/api/v1", tags=["users"])
 app.include_router(ExamRoute.router, prefix="/api/v1", tags=["exams"])
+app.include_router(
+    QuestionandAnswerRoute.router, prefix="/api/v1", tags=["questions-answers"]
+)
 app.include_router(QuizletRoute.router, prefix="/api/v1", tags=["quizlet"])
 app.include_router(ScheduleRoute.router, prefix="/api/v1", tags=["schedules"])
 app.include_router(LessionRoute.router, prefix="/api/v1", tags=["lessons"])
