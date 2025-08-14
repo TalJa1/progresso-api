@@ -15,14 +15,24 @@ class Exam(Base):
     year = Column(Integer)
     province = Column(String)
     topic_id = Column(Integer, ForeignKey("topics.id"))
+    rating = Column(Integer)
+    student_attempt = Column(Integer, default=0)
+    correct_attempt = Column(Integer, default=0)
+    added_on = Column(String)  # Store as string (DATE) for SQLite compatibility
 
 
 # Pydantic schemas
+
+
 class ExamBase(BaseModel):
     name: str
     year: Optional[int] = None
     province: Optional[str] = None
     topic_id: Optional[int] = None
+    rating: Optional[int] = None
+    student_attempt: Optional[int] = 0
+    correct_attempt: Optional[int] = 0
+    added_on: Optional[str] = None
 
 
 class ExamCreate(ExamBase):

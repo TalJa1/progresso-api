@@ -33,6 +33,10 @@ Table exams {
   year integer
   province text
   topic_id integer [ref: > topics.id]
+  rating integer [note: '1-5', note: 'CHECK (rating BETWEEN 1 AND 5)']
+  student_attempt integer [default: 0]
+  correct_attempt integer [default: 0]
+  added_on date [default: `CURRENT_DATE`]
 }
 
 

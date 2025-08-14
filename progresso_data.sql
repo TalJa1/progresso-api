@@ -55,6 +55,10 @@ CREATE TABLE IF NOT EXISTS exams (
     year INTEGER,
     province TEXT,
     topic_id INTEGER,
+    rating INTEGER CHECK (rating BETWEEN 1 AND 5),
+    student_attempt INTEGER DEFAULT 0,
+    correct_attempt INTEGER DEFAULT 0,
+    added_on DATE DEFAULT (DATE('now')),
     FOREIGN KEY (topic_id) REFERENCES topics (id)
 );
 
@@ -388,80 +392,25 @@ INSERT INTO
         name,
         year,
         province,
-        topic_id
+        topic_id,
+        rating,
+        student_attempt,
+        correct_attempt,
+        added_on
     )
-VALUES (
-        'Math graduation exam 2024',
-        2024,
-        'Ha Noi',
-        1
-    ),
-    (
-        'Geometry graduation exam 2024',
-        2024,
-        'Ho Chi Minh',
-        2
-    ),
-    (
-        'Mock test from grade 9 to 10 (Math) 2025',
-        2025,
-        'Da Nang',
-        1
-    ),
-    (
-        'Geometry Final 2025',
-        2025,
-        'Can Tho',
-        2
-    ),
-    (
-        'Algebra Entrance Exam',
-        2025,
-        'Hai Phong',
-        1
-    ),
-    (
-        'Geometry Practice Test',
-        2025,
-        'Hue',
-        2
-    ),
-    (
-        'Algebra Mock Exam',
-        2025,
-        'Quang Ninh',
-        1
-    ),
-    (
-        'Geometry Olympiad',
-        2025,
-        'Vinh',
-        2
-    ),
-    (
-        'Algebra National Exam',
-        2025,
-        'Nam Dinh',
-        1
-    ),
-    (
-        'Geometry National Exam',
-        2025,
-        'Bac Ninh',
-        2
-    ),
-    (
-        'Algebra Semester 1',
-        2025,
-        'Thanh Hoa',
-        1
-    ),
-    (
-        'Geometry Semester 2',
-        2025,
-        'Nha Trang',
-        2
-    );
+VALUES
+    ('Math graduation exam 2024', 2024, 'Ha Noi', 1, 5, 120, 90, '2025-08-01'),
+    ('Geometry graduation exam 2024', 2024, 'Ho Chi Minh', 2, 4, 100, 70, '2025-08-02'),
+    ('Mock test from grade 9 to 10 (Math) 2025', 2025, 'Da Nang', 1, 3, 80, 50, '2025-08-03'),
+    ('Geometry Final 2025', 2025, 'Can Tho', 2, 5, 60, 55, '2025-08-04'),
+    ('Algebra Entrance Exam', 2025, 'Hai Phong', 1, 4, 40, 30, '2025-08-05'),
+    ('Geometry Practice Test', 2025, 'Hue', 2, 4, 20, 10, '2025-08-06'),
+    ('Algebra Mock Exam', 2025, 'Quang Ninh', 1, 3, 25, 15, '2025-08-07'),
+    ('Geometry Olympiad', 2025, 'Vinh', 2, 5, 70, 65, '2025-08-08'),
+    ('Algebra National Exam', 2025, 'Nam Dinh', 1, 5, 200, 180, '2025-08-09'),
+    ('Geometry National Exam', 2025, 'Bac Ninh', 2, 4, 150, 120, '2025-08-10'),
+    ('Algebra Semester 1', 2025, 'Thanh Hoa', 1, 3, 60, 40, '2025-08-11'),
+    ('Geometry Semester 2', 2025, 'Nha Trang', 2, 4, 30, 20, '2025-08-12');
 
 -- 10 questions for topic 1 (Toán Đại Số)
 
