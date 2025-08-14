@@ -126,6 +126,9 @@ CREATE TABLE IF NOT EXISTS lessons_completed (
     FOREIGN KEY (lesson_id) REFERENCES lessons (id)
 );
 
+-- delete lessons_completed all data
+-- DELETE FROM lessons_completed;
+
 -- Sample Data
 INSERT INTO
     users (
