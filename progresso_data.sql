@@ -1,5 +1,4 @@
 -- Drop tables if they exist (for clean setup)
-DROP TABLE IF EXISTS progress;
 
 DROP TABLE IF EXISTS submissions;
 
@@ -88,19 +87,6 @@ CREATE TABLE IF NOT EXISTS submissions (
     grade REAL,
     feedback TEXT,
     FOREIGN KEY (user_id) REFERENCES users (id),
-    FOREIGN KEY (exam_id) REFERENCES exams (id)
-);
-
--- Progress Tracking (Tiến độ & Báo cáo học tập)
-CREATE TABLE IF NOT EXISTS progress (
-    user_id INTEGER NOT NULL,
-    lesson_id INTEGER,
-    exam_id INTEGER,
-    completed BOOLEAN NOT NULL DEFAULT 0,
-    score REAL,
-    completed_at DATETIME,
-    FOREIGN KEY (user_id) REFERENCES users (id),
-    FOREIGN KEY (lesson_id) REFERENCES lessons (id),
     FOREIGN KEY (exam_id) REFERENCES exams (id)
 );
 

@@ -60,15 +60,6 @@ Table submissions {
   feedback text
 }
 
-Table progress {
-  id integer [pk, increment]
-  user_id integer [not null, ref: > users.id]
-  lesson_id integer [ref: > lessons.id]
-  exam_id integer [ref: > exams.id]
-  completed boolean [not null]
-  score real
-  completed_at datetime
-}
 
 Table schedule {
   id integer [pk, increment]
