@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS exams (
     rating INTEGER CHECK (rating BETWEEN 1 AND 5),
     student_attempt INTEGER DEFAULT 0,
     correct_attempt INTEGER DEFAULT 0,
-    added_on DATE DEFAULT (DATE('now')),
+    added_on DATE DEFAULT(DATE('now')),
     FOREIGN KEY (topic_id) REFERENCES topics (id)
 );
 
@@ -398,19 +398,126 @@ INSERT INTO
         correct_attempt,
         added_on
     )
-VALUES
-    ('Math graduation exam 2024', 2024, 'Ha Noi', 1, 5, 120, 90, '2025-08-01'),
-    ('Geometry graduation exam 2024', 2024, 'Ho Chi Minh', 2, 4, 100, 70, '2025-08-02'),
-    ('Mock test from grade 9 to 10 (Math) 2025', 2025, 'Da Nang', 1, 3, 80, 50, '2025-08-03'),
-    ('Geometry Final 2025', 2025, 'Can Tho', 2, 5, 60, 55, '2025-08-04'),
-    ('Algebra Entrance Exam', 2025, 'Hai Phong', 1, 4, 40, 30, '2025-08-05'),
-    ('Geometry Practice Test', 2025, 'Hue', 2, 4, 20, 10, '2025-08-06'),
-    ('Algebra Mock Exam', 2025, 'Quang Ninh', 1, 3, 25, 15, '2025-08-07'),
-    ('Geometry Olympiad', 2025, 'Vinh', 2, 5, 70, 65, '2025-08-08'),
-    ('Algebra National Exam', 2025, 'Nam Dinh', 1, 5, 200, 180, '2025-08-09'),
-    ('Geometry National Exam', 2025, 'Bac Ninh', 2, 4, 150, 120, '2025-08-10'),
-    ('Algebra Semester 1', 2025, 'Thanh Hoa', 1, 3, 60, 40, '2025-08-11'),
-    ('Geometry Semester 2', 2025, 'Nha Trang', 2, 4, 30, 20, '2025-08-12');
+VALUES (
+        'Math graduation exam 2024',
+        2024,
+        'Ha Noi',
+        1,
+        5,
+        120,
+        90,
+        '2025-08-01'
+    ),
+    (
+        'Geometry graduation exam 2024',
+        2024,
+        'Ho Chi Minh',
+        2,
+        4,
+        100,
+        70,
+        '2025-08-02'
+    ),
+    (
+        'Mock test from grade 9 to 10 (Math) 2025',
+        2025,
+        'Da Nang',
+        1,
+        3,
+        80,
+        50,
+        '2025-08-03'
+    ),
+    (
+        'Geometry Final 2025',
+        2025,
+        'Can Tho',
+        2,
+        5,
+        60,
+        55,
+        '2025-08-04'
+    ),
+    (
+        'Algebra Entrance Exam',
+        2025,
+        'Hai Phong',
+        1,
+        4,
+        40,
+        30,
+        '2025-08-05'
+    ),
+    (
+        'Geometry Practice Test',
+        2025,
+        'Hue',
+        2,
+        4,
+        20,
+        10,
+        '2025-08-06'
+    ),
+    (
+        'Algebra Mock Exam',
+        2025,
+        'Quang Ninh',
+        1,
+        3,
+        25,
+        15,
+        '2025-08-07'
+    ),
+    (
+        'Geometry Olympiad',
+        2025,
+        'Vinh',
+        2,
+        5,
+        70,
+        65,
+        '2025-08-08'
+    ),
+    (
+        'Algebra National Exam',
+        2025,
+        'Nam Dinh',
+        1,
+        5,
+        200,
+        180,
+        '2025-08-09'
+    ),
+    (
+        'Geometry National Exam',
+        2025,
+        'Bac Ninh',
+        2,
+        4,
+        150,
+        120,
+        '2025-08-10'
+    ),
+    (
+        'Algebra Semester 1',
+        2025,
+        'Thanh Hoa',
+        1,
+        3,
+        60,
+        40,
+        '2025-08-11'
+    ),
+    (
+        'Geometry Semester 2',
+        2025,
+        'Nha Trang',
+        2,
+        4,
+        30,
+        20,
+        '2025-08-12'
+    );
 
 -- 10 questions for topic 1 (Toán Đại Số)
 
@@ -691,114 +798,131 @@ INSERT INTO
         content,
         is_correct
     )
-VALUES (1, 'x = 1 or x = 3', 1),
-    (1, 'x = 1 + sqrt(2)', 1),
-    (1, 'x = 2 ± sqrt(1)', 1),
+VALUES
+    -- Q1: single, only one correct, others incorrect
+    (1, 'x = 1 or x = 3', 1),
+    (1, 'x = 1 + sqrt(2)', 0),
+    (1, 'x = 2 ± sqrt(1)', 0),
     (
         1,
         'x = (4 ± sqrt(4 - 2)) / 2',
-        1
+        0
     ),
+    -- Q2: multiple, two correct, two incorrect
     (2, 'x = 1', 1),
     (2, 'x = 2', 1),
-    (2, 'x = 3', 1),
-    (2, 'All roots above', 1),
+    (2, 'x = 3', 0),
+    (2, 'All roots above', 0),
+    -- Q3: single, only one correct
     (3, 'Minimum is 3 at x = 2', 1),
-    (3, 'f(2) = 3', 1),
+    (3, 'f(2) = 3', 0),
     (
         3,
         'The vertex is at (2,3)',
-        1
+        0
     ),
-    (3, 'Minimum value is f(2)', 1),
+    (3, 'Minimum value is f(2)', 0),
+    -- Q4: multiple, two correct, two incorrect
     (4, '[[1,0],[0,1]]', 1),
     (4, '[[2,3],[1,4]]', 1),
-    (4, '[[5,7],[2,9]]', 1),
+    (4, '[[5,7],[2,9]]', 0),
     (
         4,
         'Any matrix with nonzero determinant',
-        1
+        0
     ),
+    -- Q5: single, only one correct
     (5, 'det(A) = -2', 1),
     (
         5,
         'The determinant is negative',
-        1
+        0
     ),
-    (5, 'A is invertible', 1),
+    (5, 'A is invertible', 0),
     (
         5,
         'det([[1,2],[3,4]]) = -2',
-        1
+        0
     ),
+    -- Q6: multiple, two correct, two incorrect
     (6, '(3,2)', 1),
     (6, '(2,3)', 1),
-    (6, '(x=3, y=2)', 1),
-    (6, '(x=2, y=3)', 1),
+    (6, '(x=3, y=2)', 0),
+    (6, '(x=2, y=3)', 0),
+    -- Q7: single, only one correct
     (7, 'Sum = 6', 1),
-    (7, 'The series converges', 1),
-    (7, 'Infinite sum is 6', 1),
-    (7, 'S = 3/(1-1/2) = 6', 1),
+    (7, 'The series converges', 0),
+    (7, 'Infinite sum is 6', 0),
+    (7, 'S = 3/(1-1/2) = 6', 0),
+    -- Q8: multiple, two correct, two incorrect
     (8, '2', 1),
     (8, '3', 1),
-    (8, 'Both 2 and 3', 1),
+    (8, 'Both 2 and 3', 0),
     (
         8,
         'Eigenvalues are 2 and 3',
-        1
+        0
     ),
+    -- Q9: single, only one correct
     (9, 'a = 4', 1),
-    (9, 'a^3 = 64', 1),
-    (9, 'log_4(64) = 3', 1),
-    (9, 'a = 64^(1/3)', 1),
+    (9, 'a^3 = 64', 0),
+    (9, 'log_4(64) = 3', 0),
+    (9, 'a = 64^(1/3)', 0),
+    -- Q10: multiple, two correct, two incorrect
     (10, '11', 1),
     (10, '13', 1),
-    (10, '17', 1),
-    (10, '19', 1);
+    (10, '17', 0),
+    (10, '19', 0);
 
--- All-correct answers for exam_id 2 (question_id 11-20)
 INSERT INTO
     answers (
         question_id,
         content,
         is_correct
     )
-VALUES (11, '84', 1),
-    (11, 'Area = 84', 1),
+VALUES
+    -- Q11: single, only one correct, others incorrect
+    (11, '84', 1),
+    (11, 'Area = 84', 0),
     (
         11,
-        'Heron\'s formula gives 84',
-        1
+        "Heron's formula gives 84",
+        0
     ),
-    (11, 'Triangle area is 84', 1),
+    (11, 'Triangle area is 84', 0),
+    -- Q12: multiple, two correct, two incorrect
     (12, 'Rhombus', 1),
     (12, 'Square', 1),
-    (12, 'Kite', 1),
-    (12, 'All above', 1),
+    (12, 'Kite', 0),
+    (12, 'All above', 0),
+    -- Q13: single, only one correct
     (13, '36π', 1),
-    (13, 'Volume = 36π', 1),
-    (13, 'V = 4/3πr^3 = 36π', 1),
+    (13, 'Volume = 36π', 0),
+    (13, 'V = 4/3πr^3 = 36π', 0),
     (
         13,
         'Sphere with r=3 has volume 36π',
-        1
+        0
     ),
+    -- Q14: multiple, two correct, two incorrect
     (14, 'All sides equal', 1),
     (14, 'Interior angles 120°', 1),
-    (14, '6 axes of symmetry', 1),
+    (14, '6 axes of symmetry', 0),
     (
         14,
         'Can be divided into 6 equilateral triangles',
-        1
+        0
     ),
+    -- Q15: single, only one correct
     (15, '10√2', 1),
-    (15, 'Diagonal = 10√2', 1),
-    (15, 'd = s√2 = 10√2', 1),
+    (15, 'Diagonal = 10√2', 0),
+    (15, 'd = s√2 = 10√2', 0),
     (
         15,
         'Square diagonal is 10√2',
-        1
+        0
     ),
+    -- Q16: multiple, two correct, two incorrect
     (
         16,
         'All equilateral triangles',
@@ -812,21 +936,23 @@ VALUES (11, '84', 1),
     (
         16,
         'All isosceles right triangles',
-        1
+        0
     ),
     (
         16,
         'All similar triangles',
-        1
+        0
     ),
+    -- Q17: single, only one correct
     (17, '1440°', 1),
-    (17, 'Sum = 1440°', 1),
+    (17, 'Sum = 1440°', 0),
     (
         17,
         'Interior angles add to 1440°',
-        1
+        0
     ),
-    (17, 'Decagon sum is 1440°', 1),
+    (17, 'Decagon sum is 1440°', 0),
+    -- Q18: multiple, two correct, two incorrect
     (18, 'Opposite sides equal', 1),
     (
         18,
@@ -836,25 +962,27 @@ VALUES (11, '84', 1),
     (
         18,
         'Diagonals bisect each other',
-        1
+        0
     ),
     (
         18,
         'Sum of angles is 360°',
-        1
+        0
     ),
+    -- Q19: single, only one correct
     (19, '10', 1),
-    (19, 'Radius = 10', 1),
-    (19, 'Area = πr^2, r = 10', 1),
+    (19, 'Radius = 10', 0),
+    (19, 'Area = πr^2, r = 10', 0),
     (
         19,
         'Circle with area 100π has r = 10',
-        1
+        0
     ),
+    -- Q20: multiple, two correct, two incorrect
     (20, 'Circle', 1),
     (20, 'Ellipse', 1),
-    (20, 'Parabola', 1),
-    (20, 'Hyperbola', 1);
+    (20, 'Parabola', 0),
+    (20, 'Hyperbola', 0);
 
 INSERT INTO
     submissions (
