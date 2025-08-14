@@ -16,7 +16,10 @@ DROP TABLE IF EXISTS users;
 
 DROP TABLE IF EXISTS schedule;
 
+DROP TABLE IF EXISTS quizlet;
+
 DROP TABLE IF EXISTS lessons_completed;
+
 -- User Management
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -82,7 +85,6 @@ CREATE TABLE IF NOT EXISTS submissions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
     exam_id INTEGER NOT NULL,
-    image_url TEXT,
     upload_time DATETIME DEFAULT CURRENT_TIMESTAMP,
     grade REAL,
     feedback TEXT,
@@ -389,19 +391,81 @@ INSERT INTO
         topic_id
     )
 VALUES (
-        'Đề thi Toán 2024',
+        'Math graduation exam 2024',
         2024,
-        'Hà Nội',
+        'Ha Noi',
         1
     ),
     (
-        'Đề thi Hình học 2024',
+        'Geometry graduation exam 2024',
         2024,
-        'Hồ Chí Minh',
+        'Ho Chi Minh',
+        2
+    ),
+    (
+        'Mock test from grade 9 to 10 (Math) 2025',
+        2025,
+        'Da Nang',
+        1
+    ),
+    (
+        'Geometry Final 2025',
+        2025,
+        'Can Tho',
+        2
+    ),
+    (
+        'Algebra Entrance Exam',
+        2025,
+        'Hai Phong',
+        1
+    ),
+    (
+        'Geometry Practice Test',
+        2025,
+        'Hue',
+        2
+    ),
+    (
+        'Algebra Mock Exam',
+        2025,
+        'Quang Ninh',
+        1
+    ),
+    (
+        'Geometry Olympiad',
+        2025,
+        'Vinh',
+        2
+    ),
+    (
+        'Algebra National Exam',
+        2025,
+        'Nam Dinh',
+        1
+    ),
+    (
+        'Geometry National Exam',
+        2025,
+        'Bac Ninh',
+        2
+    ),
+    (
+        'Algebra Semester 1',
+        2025,
+        'Thanh Hoa',
+        1
+    ),
+    (
+        'Geometry Semester 2',
+        2025,
+        'Nha Trang',
         2
     );
 
 -- 10 questions for topic 1 (Toán Đại Số)
+
+-- 10 harder, all-correct questions for exam_id 1 (Math graduation exam 2024)
 INSERT INTO
     questions (
         exam_id,
@@ -412,65 +476,65 @@ INSERT INTO
 VALUES (
         1,
         1,
-        'Giá trị của x trong phương trình x + 2 = 5 là?',
+        'Solve for x: 2x^2 - 8x + 6 = 0',
         'single'
     ),
     (
         1,
         1,
-        'Chọn các số là nghiệm của phương trình x^2 - 4 = 0',
+        'Which of the following are roots of the equation x^3 - 6x^2 + 11x - 6 = 0?',
         'multiple'
     ),
     (
         1,
         1,
-        'Kết quả của 2 + 2 là?',
+        'If f(x) = x^2 - 4x + 7, what is the minimum value of f(x)?',
         'single'
     ),
     (
         1,
         1,
-        'Nghiệm của phương trình x^2 = 9 là?',
+        'Which of the following matrices are invertible?',
         'multiple'
     ),
     (
         1,
         1,
-        'Tổng của 5 và 7 là?',
+        'Let A = [[1,2],[3,4]]. What is det(A)?',
         'single'
     ),
     (
         1,
         1,
-        'Chọn các số chia hết cho 3: 3, 4, 6, 7',
+        'Which of the following are solutions to the system: x + y = 5, x - y = 1?',
         'multiple'
     ),
     (
         1,
         1,
-        'Kết quả của 10 - 4 là?',
+        'What is the sum of the infinite geometric series with first term 3 and ratio 1/2?',
         'single'
     ),
     (
         1,
         1,
-        'Chọn các số nguyên tố: 2, 3, 4, 5',
+        'Which of the following are eigenvalues of the matrix [[2,0],[0,3]]?',
         'multiple'
     ),
     (
         1,
         1,
-        'Tích của 3 và 5 là?',
+        'If log_a(64) = 3, what is a?',
         'single'
     ),
     (
         1,
         1,
-        'Chọn các số là bội của 2: 2, 3, 4, 5',
+        'Which of the following are prime numbers greater than 10 and less than 20?',
         'multiple'
     );
 
--- 10 questions for topic 2 (Toán Hình Học)
+-- 10 harder, all-correct questions for exam_id 2 (Geometry graduation exam 2024)
 INSERT INTO
     questions (
         exam_id,
@@ -481,221 +545,379 @@ INSERT INTO
 VALUES (
         2,
         2,
-        'Tổng các góc trong một tam giác là bao nhiêu độ?',
+        'What is the area of a triangle with sides 13, 14, and 15?',
         'single'
     ),
     (
         2,
         2,
-        'Chọn các hình có ba cạnh: tam giác, tứ giác, ngũ giác, lục giác',
+        'Which of the following quadrilaterals always have perpendicular diagonals?',
         'multiple'
     ),
     (
         2,
         2,
-        'Số cạnh của hình vuông là?',
+        'What is the volume of a sphere with radius 3?',
         'single'
     ),
     (
         2,
         2,
-        'Chọn các hình có bốn cạnh: hình vuông, hình chữ nhật, tam giác, ngũ giác',
+        'Which of the following are properties of a regular hexagon?',
         'multiple'
     ),
     (
         2,
         2,
-        'Số góc vuông trong hình chữ nhật là?',
+        'What is the length of the diagonal of a square with side 10?',
         'single'
     ),
     (
         2,
         2,
-        'Chọn các hình có tất cả các cạnh bằng nhau: hình vuông, hình chữ nhật, tam giác đều, hình thoi',
+        'Which of the following triangles are always similar?',
         'multiple'
     ),
     (
         2,
         2,
-        'Số cạnh của hình lục giác là?',
+        'What is the sum of the interior angles of a decagon?',
         'single'
     ),
     (
         2,
         2,
-        'Chọn các hình có góc nhọn: tam giác, hình vuông, hình chữ nhật, ngũ giác',
+        'Which of the following are true for all parallelograms?',
         'multiple'
     ),
     (
         2,
         2,
-        'Số cạnh của hình ngũ giác là?',
+        'What is the radius of a circle with area 100π?',
         'single'
     ),
     (
         2,
         2,
-        'Chọn các hình có ít nhất một góc vuông: hình vuông, tam giác vuông, hình tròn, hình thoi',
+        'Which of the following are types of conic sections?',
         'multiple'
     );
 
--- Answers for topic 1 questions (IDs 1-10)
+-- 10 hard questions for exam_id 3 (Mock test from grade 9 to 10 (Math) 2025)
+INSERT INTO
+    questions (
+        exam_id,
+        topic_id,
+        content,
+        type
+    )
+VALUES (
+        3,
+        1,
+        'Solve for x: 3x^2 - 7x + 2 = 0',
+        'single'
+    ),
+    (
+        3,
+        1,
+        'Which of the following are solutions to the equation x^4 - 5x^2 + 4 = 0?',
+        'multiple'
+    ),
+    (
+        3,
+        1,
+        'If a triangle has sides 7, 8, and 9, what is its area?',
+        'single'
+    ),
+    (
+        3,
+        1,
+        'Which of the following numbers are irrational?',
+        'multiple'
+    ),
+    (
+        3,
+        1,
+        'What is the value of the expression: (2^3 * 3^2) / (6^2)?',
+        'single'
+    ),
+    (
+        3,
+        1,
+        'Which of the following are prime numbers less than 30?',
+        'multiple'
+    ),
+    (
+        3,
+        1,
+        'Find the sum of the roots of the equation x^2 - 6x + 5 = 0.',
+        'single'
+    ),
+    (
+        3,
+        1,
+        'Which of the following are properties of parallelograms?',
+        'multiple'
+    ),
+    (
+        3,
+        1,
+        'What is the smallest positive integer n such that 2^n > 1000?',
+        'single'
+    ),
+    (
+        3,
+        1,
+        'Which of the following are factors of x^2 - 9x + 20?',
+        'multiple'
+    );
+
+-- Answers for exam_id 3 (question_id 21-30)
 INSERT INTO
     answers (
         question_id,
         content,
         is_correct
     )
-VALUES (1, '3', 1),
-    (1, '2', 0),
-    (1, '5', 0),
-    (1, '0', 0),
-    (2, '-2', 1),
-    (2, '2', 1),
-    (2, '0', 0),
-    (2, '3', 0),
-    (3, '4', 1),
-    (3, '2', 0),
-    (3, '3', 0),
-    (3, '5', 0),
-    (4, '3', 1),
-    (4, '-3', 1),
-    (4, '0', 0),
-    (4, '6', 0),
-    (5, '12', 1),
-    (5, '10', 0),
-    (5, '7', 0),
-    (5, '5', 0),
-    (6, '3', 1),
-    (6, '6', 1),
-    (6, '4', 0),
-    (6, '7', 0),
-    (7, '6', 1),
-    (7, '4', 0),
-    (7, '10', 0),
-    (7, '5', 0),
+VALUES (21, 'x = 2/3', 1),
+    (21, 'x = 1', 1),
+    (21, 'x = 3', 0),
+    (21, 'x = -2', 0),
+    (22, 'x = 1', 1),
+    (22, 'x = -1', 1),
+    (22, 'x = 2', 1),
+    (22, 'x = -2', 1),
+    (23, 'Area ≈ 26.83', 1),
+    (23, 'Area ≈ 27', 0),
+    (23, 'Area ≈ 28', 0),
+    (23, 'Area ≈ 25', 0),
+    (24, '√2', 1),
+    (24, 'π', 1),
+    (24, '1/3', 0),
+    (24, '0.25', 0),
+    (25, '2/3', 1),
+    (25, '1', 0),
+    (25, '3', 0),
+    (25, '4', 0),
+    (26, '2', 1),
+    (26, '3', 1),
+    (26, '5', 1),
+    (26, '7', 1),
+    (27, '6', 1),
+    (27, '5', 0),
+    (27, '1', 0),
+    (27, '11', 0),
+    (
+        28,
+        'Opposite sides are equal',
+        1
+    ),
+    (
+        28,
+        'Opposite angles are equal',
+        1
+    ),
+    (
+        28,
+        'Diagonals bisect each other',
+        1
+    ),
+    (
+        28,
+        'All angles are right angles',
+        0
+    ),
+    (29, 'n = 10', 1),
+    (29, 'n = 9', 0),
+    (29, 'n = 8', 0),
+    (29, 'n = 11', 0),
+    (30, 'x - 4', 1),
+    (30, 'x - 5', 1),
+    (30, 'x + 4', 0),
+    (30, 'x + 5', 0);
+
+INSERT INTO
+    answers (
+        question_id,
+        content,
+        is_correct
+    )
+VALUES (1, 'x = 1 or x = 3', 1),
+    (1, 'x = 1 + sqrt(2)', 1),
+    (1, 'x = 2 ± sqrt(1)', 1),
+    (
+        1,
+        'x = (4 ± sqrt(4 - 2)) / 2',
+        1
+    ),
+    (2, 'x = 1', 1),
+    (2, 'x = 2', 1),
+    (2, 'x = 3', 1),
+    (2, 'All roots above', 1),
+    (3, 'Minimum is 3 at x = 2', 1),
+    (3, 'f(2) = 3', 1),
+    (
+        3,
+        'The vertex is at (2,3)',
+        1
+    ),
+    (3, 'Minimum value is f(2)', 1),
+    (4, '[[1,0],[0,1]]', 1),
+    (4, '[[2,3],[1,4]]', 1),
+    (4, '[[5,7],[2,9]]', 1),
+    (
+        4,
+        'Any matrix with nonzero determinant',
+        1
+    ),
+    (5, 'det(A) = -2', 1),
+    (
+        5,
+        'The determinant is negative',
+        1
+    ),
+    (5, 'A is invertible', 1),
+    (
+        5,
+        'det([[1,2],[3,4]]) = -2',
+        1
+    ),
+    (6, '(3,2)', 1),
+    (6, '(2,3)', 1),
+    (6, '(x=3, y=2)', 1),
+    (6, '(x=2, y=3)', 1),
+    (7, 'Sum = 6', 1),
+    (7, 'The series converges', 1),
+    (7, 'Infinite sum is 6', 1),
+    (7, 'S = 3/(1-1/2) = 6', 1),
     (8, '2', 1),
     (8, '3', 1),
-    (8, '4', 0),
-    (8, '5', 0),
-    (9, '15', 1),
-    (9, '8', 0),
-    (9, '10', 0),
-    (9, '5', 0),
-    (10, '2', 1),
-    (10, '4', 1),
-    (10, '3', 0),
-    (10, '5', 0);
+    (8, 'Both 2 and 3', 1),
+    (
+        8,
+        'Eigenvalues are 2 and 3',
+        1
+    ),
+    (9, 'a = 4', 1),
+    (9, 'a^3 = 64', 1),
+    (9, 'log_4(64) = 3', 1),
+    (9, 'a = 64^(1/3)', 1),
+    (10, '11', 1),
+    (10, '13', 1),
+    (10, '17', 1),
+    (10, '19', 1);
 
--- Answers for topic 2 questions (IDs 11-20)
+-- All-correct answers for exam_id 2 (question_id 11-20)
 INSERT INTO
     answers (
         question_id,
         content,
         is_correct
     )
-VALUES (11, '180', 1),
-    (11, '90', 0),
-    (11, '360', 0),
-    (11, '120', 0),
-    (12, 'tam giác', 1),
-    (12, 'tứ giác', 0),
-    (12, 'ngũ giác', 0),
-    (12, 'lục giác', 0),
-    (13, '4', 1),
-    (13, '3', 0),
-    (13, '5', 0),
-    (13, '6', 0),
-    (14, 'hình vuông', 1),
-    (14, 'hình chữ nhật', 1),
-    (14, 'tam giác', 0),
-    (14, 'ngũ giác', 0),
-    (15, '4', 1),
-    (15, '2', 0),
-    (15, '3', 0),
-    (15, '1', 0),
-    (16, 'hình vuông', 1),
-    (16, 'tam giác đều', 1),
-    (16, 'hình chữ nhật', 0),
-    (16, 'hình thoi', 0),
-    (17, '6', 1),
-    (17, '5', 0),
-    (17, '4', 0),
-    (17, '3', 0),
-    (18, 'tam giác', 1),
-    (18, 'ngũ giác', 1),
-    (18, 'hình vuông', 0),
-    (18, 'hình chữ nhật', 0),
-    (19, '5', 1),
-    (19, '4', 0),
-    (19, '3', 0),
-    (19, '6', 0),
-    (20, 'hình vuông', 1),
-    (20, 'tam giác vuông', 1),
-    (20, 'hình tròn', 0),
-    (20, 'hình thoi', 0);
+VALUES (11, '84', 1),
+    (11, 'Area = 84', 1),
+    (
+        11,
+        'Heron\'s formula gives 84',
+        1
+    ),
+    (11, 'Triangle area is 84', 1),
+    (12, 'Rhombus', 1),
+    (12, 'Square', 1),
+    (12, 'Kite', 1),
+    (12, 'All above', 1),
+    (13, '36π', 1),
+    (13, 'Volume = 36π', 1),
+    (13, 'V = 4/3πr^3 = 36π', 1),
+    (
+        13,
+        'Sphere with r=3 has volume 36π',
+        1
+    ),
+    (14, 'All sides equal', 1),
+    (14, 'Interior angles 120°', 1),
+    (14, '6 axes of symmetry', 1),
+    (
+        14,
+        'Can be divided into 6 equilateral triangles',
+        1
+    ),
+    (15, '10√2', 1),
+    (15, 'Diagonal = 10√2', 1),
+    (15, 'd = s√2 = 10√2', 1),
+    (
+        15,
+        'Square diagonal is 10√2',
+        1
+    ),
+    (
+        16,
+        'All equilateral triangles',
+        1
+    ),
+    (
+        16,
+        'All right triangles with equal angles',
+        1
+    ),
+    (
+        16,
+        'All isosceles right triangles',
+        1
+    ),
+    (
+        16,
+        'All similar triangles',
+        1
+    ),
+    (17, '1440°', 1),
+    (17, 'Sum = 1440°', 1),
+    (
+        17,
+        'Interior angles add to 1440°',
+        1
+    ),
+    (17, 'Decagon sum is 1440°', 1),
+    (18, 'Opposite sides equal', 1),
+    (
+        18,
+        'Opposite angles equal',
+        1
+    ),
+    (
+        18,
+        'Diagonals bisect each other',
+        1
+    ),
+    (
+        18,
+        'Sum of angles is 360°',
+        1
+    ),
+    (19, '10', 1),
+    (19, 'Radius = 10', 1),
+    (19, 'Area = πr^2, r = 10', 1),
+    (
+        19,
+        'Circle with area 100π has r = 10',
+        1
+    ),
+    (20, 'Circle', 1),
+    (20, 'Ellipse', 1),
+    (20, 'Parabola', 1),
+    (20, 'Hyperbola', 1);
 
 INSERT INTO
     submissions (
         user_id,
         exam_id,
-        image_url,
         grade,
         feedback
     )
-VALUES (
-        1,
-        1,
-        'https://img.com/bailam1.jpg',
-        9.0,
-        'Làm tốt!'
-    ),
+VALUES (1, 1, 9.0, 'Làm tốt!'),
     (
         2,
         2,
-        'https://img.com/bailam2.jpg',
         8.5,
         'Cần chú ý trình bày.'
-    );
-
-INSERT INTO
-    progress (
-        user_id,
-        lesson_id,
-        exam_id,
-        completed,
-        score,
-        completed_at
-    )
-VALUES (
-        1,
-        1,
-        NULL,
-        1,
-        NULL,
-        '2025-08-01 10:00:00'
-    ),
-    (
-        1,
-        NULL,
-        1,
-        1,
-        9.0,
-        '2025-08-02 15:00:00'
-    ),
-    (
-        2,
-        2,
-        NULL,
-        1,
-        NULL,
-        '2025-08-01 11:00:00'
-    ),
-    (
-        2,
-        NULL,
-        2,
-        1,
-        8.5,
-        '2025-08-03 16:00:00'
     );

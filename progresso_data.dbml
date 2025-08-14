@@ -41,7 +41,7 @@ Table questions {
   exam_id integer [not null, ref: > exams.id]
   topic_id integer [not null, ref: > topics.id]
   content text [not null]
-  type text [not null]
+  type text [not null, note: 'single or multiple']
 }
 
 
@@ -57,7 +57,6 @@ Table submissions {
   id integer [pk, increment]
   user_id integer [not null, ref: > users.id]
   exam_id integer [not null, ref: > exams.id]
-  image_url text
   upload_time datetime [default: `CURRENT_TIMESTAMP`]
   grade real
   feedback text
