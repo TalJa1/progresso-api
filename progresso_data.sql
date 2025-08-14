@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS quizlet (
     FOREIGN KEY (lesson_id) REFERENCES lessons (id)
 );
 
--- delete lessons_completed all data
+-- delete all data from ...
 -- DELETE FROM lessons_completed;
 -- DELETE FROM quizlet;
 
