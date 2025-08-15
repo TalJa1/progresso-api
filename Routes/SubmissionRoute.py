@@ -4,13 +4,10 @@ from typing import Optional, List
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update, delete
 from sqlalchemy import Column, Integer, ForeignKey, DateTime, Float, Text
-from sqlalchemy.orm import declarative_base
-from database import get_db
+from database import get_db, Base
 import datetime
 
 router = APIRouter()
-
-Base = declarative_base()
 
 
 class Submission(Base):
