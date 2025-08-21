@@ -108,8 +108,7 @@ CREATE TABLE IF NOT EXISTS submission_record (
     FOREIGN KEY (submission_id) REFERENCES submissions (id),
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (question_id) REFERENCES questions (id),
-    FOREIGN KEY (chosen_answer_id) REFERENCES answers (id),
-    UNIQUE (submission_id, question_id)
+    FOREIGN KEY (chosen_answer_id) REFERENCES answers (id)
 );
 
 -- Schedule (Lịch trình cá nhân)

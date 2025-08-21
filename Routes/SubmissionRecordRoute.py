@@ -114,8 +114,12 @@ async def create_submission_record_batch(
 
 
 @router.get("/submission_record", response_model=List[SubmissionRecordOut])
-async def list_submission_records(db: AsyncSession = Depends(get_db)):
-    result = await db.execute(select(SubmissionRecord))
+async def list_submission_records(
+    db: AsyncSession = Depends(get_db),
+):
+    stmt = select(SubmissionRecord)
+
+    result = await db.execute(stmt)
     rows = result.scalars().all()
     return rows
 
