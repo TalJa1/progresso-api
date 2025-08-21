@@ -120,6 +120,23 @@ async def list_submission_records(db: AsyncSession = Depends(get_db)):
     return rows
 
 
+@router.get(
+    "/submission_record/by_submission/{submission_id}/user/{user_id}",
+    response_model=List[SubmissionRecordOut],
+)
+async def get_records_by_submission_and_user(
+    submission_id: int, user_id: int, db: AsyncSession = Depends(get_db)
+):
+    result = await db.execute(
+        select(SubmissionRecord).where(
+            SubmissionRecord.submission_id == submission_id,
+            SubmissionRecord.user_id == user_id,
+        )
+    )
+    rows = result.scalars().all()
+    return rows
+
+
 @router.get("/submission_record/{rec_id}", response_model=SubmissionRecordOut)
 async def get_submission_record(rec_id: int, db: AsyncSession = Depends(get_db)):
     result = await db.execute(
