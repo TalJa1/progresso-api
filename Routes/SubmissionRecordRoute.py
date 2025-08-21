@@ -77,34 +77,39 @@ async def create_submission_record_batch(
 
     async with db.begin():
         for item in payload:
-            # check if a record for this submission+question already exists
+            # if this exact choice already exists (allow multiple answers per question), skip
             res = await db.execute(
                 select(SubmissionRecord).where(
                     SubmissionRecord.submission_id == item.submission_id,
                     SubmissionRecord.question_id == item.question_id,
+                    SubmissionRecord.chosen_answer_id == item.chosen_answer_id,
                 )
             )
             existing = res.scalars().first()
             if existing:
-                # ensure the existing row belongs to same user
-                if existing.user_id != item.user_id:
-                    raise HTTPException(
-                        status_code=400,
-                        detail=f"user_id mismatch for submission_id={item.submission_id} question_id={item.question_id}",
-                    )
-                # update chosen answer for existing record
-                existing.chosen_answer_id = item.chosen_answer_id
-                updated.append(existing)
-            else:
-                rec = SubmissionRecord(
-                    submission_id=item.submission_id,
-                    user_id=item.user_id,
-                    question_id=item.question_id,
-                    chosen_answer_id=item.chosen_answer_id,
+                # duplicate exact choice, skip
+                continue
+            # ensure no user mismatch for the submission (optional safety)
+            res2 = await db.execute(
+                select(SubmissionRecord).where(
+                    SubmissionRecord.submission_id == item.submission_id,
                 )
-                db.add(rec)
-                await db.flush()  # ensure rec.id is populated
-                created.append(rec)
+            )
+            first_for_submission = res2.scalars().first()
+            if first_for_submission and first_for_submission.user_id != item.user_id:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"user_id mismatch for submission_id={item.submission_id}",
+                )
+            rec = SubmissionRecord(
+                submission_id=item.submission_id,
+                user_id=item.user_id,
+                question_id=item.question_id,
+                chosen_answer_id=item.chosen_answer_id,
+            )
+            db.add(rec)
+            await db.flush()  # ensure rec.id is populated
+            created.append(rec)
 
     # refresh all affected instances and return them
     for r in created + updated:
