@@ -13,6 +13,7 @@ from Routes import (
     QuizletRoute,
     Reset_DBRoute,
     ScheduleRoute,
+    SubmissionRecordRoute,
     SubmissionRoute,
     TopicRoute,
     UserRoute,
@@ -73,6 +74,9 @@ app.include_router(
     QuestionandAnswerRoute.router, prefix="/api/v1", tags=["questions-answers"]
 )
 app.include_router(SubmissionRoute.router, prefix="/api/v1", tags=["submissions"])
+app.include_router(
+    SubmissionRecordRoute.router, prefix="/api/v1", tags=["submission-records"]
+)
 app.include_router(QuizletRoute.router, prefix="/api/v1", tags=["quizlet"])
 app.include_router(ScheduleRoute.router, prefix="/api/v1", tags=["schedules"])
 app.include_router(LessionRoute.router, prefix="/api/v1", tags=["lessons"])

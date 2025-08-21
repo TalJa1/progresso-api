@@ -2,6 +2,8 @@
 
 DROP TABLE IF EXISTS submissions;
 
+DROP TABLE IF EXISTS submission_record;
+
 DROP TABLE IF EXISTS answers;
 
 DROP TABLE IF EXISTS questions;
@@ -94,6 +96,20 @@ CREATE TABLE IF NOT EXISTS submissions (
     feedback TEXT,
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (exam_id) REFERENCES exams (id)
+);
+
+-- Singular submission record table: stores user's chosen answer for each question
+CREATE TABLE IF NOT EXISTS submission_record (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    submission_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    question_id INTEGER NOT NULL,
+    chosen_answer_id INTEGER NOT NULL,
+    FOREIGN KEY (submission_id) REFERENCES submissions (id),
+    FOREIGN KEY (user_id) REFERENCES users (id),
+    FOREIGN KEY (question_id) REFERENCES questions (id),
+    FOREIGN KEY (chosen_answer_id) REFERENCES answers (id),
+    UNIQUE (submission_id, question_id)
 );
 
 -- Schedule (Lịch trình cá nhân)
