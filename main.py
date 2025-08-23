@@ -67,7 +67,7 @@ class FilterParams(BaseModel):
 
 
 app.include_router(Reset_DBRoute.router, prefix="/api/v1", tags=["reset-db"])
-app.include_router(GeminiAIRoute.router, prefix="/api/v1", tags=["gemini-chat"])
+app.include_router(GeminiAIRoute.router, prefix="/api/v1", tags=["progressoAI-chat"])
 app.include_router(UserRoute.router, prefix="/api/v1", tags=["users"])
 app.include_router(ExamRoute.router, prefix="/api/v1", tags=["exams"])
 app.include_router(
