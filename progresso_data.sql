@@ -331,14 +331,14 @@ VALUES (
         'THPT Le Quy Don',
         ''
     ),
-    {
-        "duong02102008@gmail.com",
-        "Dương Lý",
-        "https://lh3.googleusercontent.com/a/ACg8ocL3hd9eCt56Y5GhRkKWWqROrUuayaR9nhaqoaiTnBUQbVNuJA2pJQ=s96-c",
-        "12",
-        "Vinschool"
-        "",
-    },
+    (
+        'duong02102008@gmail.com',
+        'Dương Lý',
+        'https://lh3.googleusercontent.com/a/ACg8ocL3hd9eCt56Y5GhRkKWWqROrUuayaR9nhaqoaiTnBUQbVNuJA2pJQ=s96-c',
+        '12',
+        'Vinschool',
+        ''
+    ),
     (
         'student2@gmail.com',
         'Tran Thi B',
