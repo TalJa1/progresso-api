@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
+from typing import List
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from database import get_db, Base
@@ -55,6 +56,33 @@ async def create_lesson(lesson: Lesson, db: AsyncSession = Depends(get_db)):
     except IntegrityError as e:
         await db.rollback()
         raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.post("/lessons/bulk", status_code=201)
+async def create_lessons_bulk(lessons: List[Lesson], db: AsyncSession = Depends(get_db)):
+    created_lessons = []
+    try:
+        for lesson in lessons:
+            lesson_obj = LessonORM(**lesson.dict())
+            db.add(lesson_obj)
+        
+        await db.commit()
+        
+        # Refresh all objects to get their IDs
+        for lesson_obj in db.new:
+            await db.refresh(lesson_obj)
+            created_lessons.append(lesson_obj.__dict__)
+        
+        return {
+            "message": f"Successfully created {len(created_lessons)} lessons",
+            "lessons": created_lessons
+        }
+    except IntegrityError as e:
+        await db.rollback()
+        raise HTTPException(status_code=400, detail=f"Database integrity error: {str(e)}")
+    except Exception as e:
+        await db.rollback()
+        raise HTTPException(status_code=500, detail=f"Error creating lessons: {str(e)}")
 
 
 @router.put("/lessons/{lesson_id}")
